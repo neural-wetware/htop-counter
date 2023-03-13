@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+CONFIG_FILE=$HOME/.hotp-counter
+
+if [[ -f "$CONFIG_FILE" ]]; then
+    COUNTER=$(<$CONFIG_FILE)
+else
+    COUNTER=0
+fi
+
+HOTP=$(oathtool --hotp -c $COUNTER --base32 -)
+
+echo $((COUNTER + 1)) >$CONFIG_FILE
+
+echo $HOTP
